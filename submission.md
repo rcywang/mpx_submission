@@ -13,62 +13,33 @@ Equations can be included via \( ... \) or \[ ... \].
 
 
 
-Introduction
+# Introduction
 
 In 1925, Einstein predicted that a new quantum state of matter could condense out of a gas of integer spin particles (bosons) when cooled to temperatures close to absolute zero (nanokelvins) [1, 2]. Experimental observation of this process, called Bose-Einstein condensation, came 70 years later using an ultracold gas of rubidium atoms [3]. Despite being composed of atomic constituents, the quantum state of a Bose-Einstein condensate (BEC) can be collectively characterized by a single macroscopic wave function. Below a critical temperature, a large fraction of bosons occupy the lowest-energy state (ground state) and assume identical wave identities, acting like a ‘super atom’ that exhibits quantum behaviour at a macroscopic level. For this reason, degenerate gases are routinely used as quantum simulators to investigate a variety of quantum phenomena, such as many-body physics [4], non-equilibrium dynamics [5], phase transitions [6], superfluidity and superconductivity [7], and measurement sensitivity [8]. While methodologies for quantum gas experiments are well-established, the measurement rate is limited by long production times, typically lasting tens of seconds; the sampling process itself lasts for about a second before a destructive measurement is made [9]. Thus, producing BECs with short duty cycles is of particular interest and is essential for precise quantum sensors, such as atomic clocks and interferometers [10], pressure and inertial sensors [11, 12], and gravimeters [13].
 
-II.
+# Motivation
 
-rameterised by a time-specific value set for a given sequence. Although microscopic models exist to describe
-this process [14], such semi-classical theories can oversimplify dynamics, or miss non-intuitive yet more effective
-solutions [15] only discoverable through experimentation.
-For most applications, data acquisition for highprecision experiments require achieving the optimal measurement in a limited number of iterations. Given the
-large parameter space of a typical sequence, optimising experimental settings through exhaustive search is
-highly impractical. Instead, this discovery process is
-automated with machine-learning online 2 optimisation
-(MLOO). Isolating the atomic absorption signal from
-the noisy background is another prohibitive factor, which
-also benefits from the implementation of MLOO.
-In this paper, we review two approaches to optimising cold-atom experiments: the first focusing on finding
-the optimal experimental settings, and the second on improving current absorption imaging techniques.
-III.
+The standard method to reach ultracold temperaturesis by collisional evaporative cooling<sup>1</sup>, which governs theduty cycle length.  Evaporation requires the precise se-quencing of time-varying magnetic and optical fields, parameterised by a time-specific value set for a given sequence. Although microscopic models exist to describe this process [14], such semi-classical theories can oversimplify dynamics, or miss non-intuitive yet more effective solutions [15] only discoverable through experimentation. For most applications, data acquisition for highprecision experiments require achieving the optimal measurement in a limited number of iterations. Given the large parameter space of a typical sequence, optimising experimental settings through exhaustive search is highly impractical. Instead, this discovery process is automated with machine-learning online 2 optimisation (MLOO). Isolating the atomic absorption signal from the noisy background is another prohibitive factor, which also benefits from the implementation of MLOO. In this review, two approaches to optimising cold-atom experiments are discussed: the first focusing on finding the optimal experimental settings, and the second on improving current absorption imaging techniques.
 
-Evaporative cooling can be understood by analogy
-to cooling a cup of hot coffee by blowing on it. The
-speed of atoms in an atomic gas can be described by the
-Maxwell-Boltzmann distribution [16]. By removing the
-high-energy atoms3 , the remaining atoms re-equilibrate
-through elastic collisions, lowering the temperature of the
-sample. In hot coffee, the most energetic particles escape
-as vapour, taking with them their share of energy and
-thus temperature.
+<sup>1</sup> Ultracold temperatures are usually achieved through a combination of laser/optical and forced evaporative cooling.
 
-MOTIVATION
+# Evaporation Model
 
-The standard method to reach ultracold temperatures
-is by collisional evaporative cooling1 , which governs the
-duty cycle length. Evaporation requires the precise sequencing of time-varying magnetic and optical fields, pa-
+Evaporative cooling can be understood by analogy to cooling a cup of hot coffee by blowing on it. The speed of atoms in an atomic gas can be described by the Maxwell-Boltzmann distribution [16]. By removing the high-energy atoms3 , the remaining atoms re-equilibrate through elastic collisions, lowering the temperature of the sample. In hot coffee, the most energetic particles escape as vapour, taking with them their share of energy and thus temperature.
 
-EVAPORATION MODEL
 
-A.
+## Runaway Evaporation
 
-Runaway Evaporation
-
-Efficient or runaway evaporative cooling requires the
-elastic collision rate γel , to be much larger than the loss
-rate
+Efficient or runaway evaporative cooling requires the elastic collision rate \[ \gamma_{\mathrm{el}} \], to be much larger than the loss rate
 γel = σhnvi  Γloss
 
-1
+\[\gamma \]
 
-Ultracold temperatures are usually achieved through a combination of laser/optical and forced evaporative cooling.
+<sup>2</sup> Online, meaning optimisation that occurs in real time.
+<sup>3</sup> Atoms occupying the highest energy tail of the distribution.
 
-2
-3
 
-Online, meaning optimisation that occurs in real time.
-Atoms occupying the highest energy tail of the distribution.
+
 
 (1)
 
@@ -105,27 +76,13 @@ is described by
 
 (3)
 
-Concerning optical imaging, a double-exposure scheme
-is generally used and two images are taken: the first
-with the cloud present, and the second reference exposure without. However, the noise patterns of the two images are not identical and thus results in residual noise
-in the final image [19]. Information on the optical depth
-(OD) along the line-of-sight is found through the difference in the logarithms of pixel counts (see Eqn. 2)
-between the two frames. Distinguishing the signal from
-the background becomes difficult, particularly for lowOD images. A novel single-exposure solution using a deep
-neural network (DNN) is presented in [19] (and discussed
-in §V).
-B.
+Concerning optical imaging, a double-exposure scheme is generally used and two images are taken: the first with the cloud present, and the second reference exposure without. However, the noise patterns of the two images are not identical and thus results in residual noise in the final image [19]. Information on the optical depth (OD) along the line-of-sight is found through the difference in the logarithms of pixel counts (see Eqn. 2) between the two frames. Distinguishing the signal from the background becomes difficult, particularly for lowOD images. A novel single-exposure solution using a deep neural network (DNN) is presented in [19] (and discussed in §V).
 
-BEC Observation
+
+## BEC Observation
 
 After switching off the trap, the condensate falls (gravity) and expands ballistically before an image is taken.
 
-FIG. 2. 3-dimensional velocity distribution for a gas of rubidium atoms, showing successive snapshots in time, from
-the first confirmed 1995 production of a BEC by [3]. Atoms
-condense from less dense red/yellow/green areas to significantly denser blue/white areas. The central image is just after
-the appearance of a BEC; the left is before (non-condensed)
-and the right is a further evaporated, nearly pure condensate.
-Credit: NIST/JILA/CU-Boulder.
 
 Following this ‘time-of-flight’ (TOF) expansion, the cloud
 is illuminated by a collimated resonant laser beam and
@@ -162,121 +119,42 @@ time t.
 efficient, BEC reached
 inefficient, no BEC
 
+
+
+FIG. 2. 3-dimensional velocity distribution for a gas of rubidium atoms, showing successive snapshots in time, from
+the first confirmed 1995 production of a BEC by [3]. Atoms
+condense from less dense red/yellow/green areas to significantly denser blue/white areas. The central image is just after
+the appearance of a BEC; the left is before (non-condensed)
+and the right is a further evaporated, nearly pure condensate.
+Credit: NIST/JILA/CU-Boulder.
+
 3
-IV.
 
-MACHINE-LEARNING ONLINE
-OPTIMISATION (MLOO)
 
-Let the parameter space be one that is spanned by
-M experimental settings (e.g. voltage, laser parameters,
-timing, field strength [22]). A point in this space is represented by a vector X ∈ RM . Each point has an associated cost Y = f (X) ∈ R, where minimising the cost
-function f (X) guides optimisation toward the global optimum [21]. However, f (X) is taken to be non-convex,
-thus it is possible that optimisation may converge to a
-local optimum. This can be rectified in part by increasing the number of optimisation cycles with varying initial
-conditions [21].
-The experimental apparatus and optimisation loop begin with the trapped atomic cloud. The machine learner
-is given an initial vector X0 of experimental settings.
-The gas is transported into an ultra-high vacuum environment, where it is evaporatively cooled. Properties of
-the cloud (e.g. atom number [19] or width of cloud edges5
-[20]) are extracted from absorption images taken after
-TOF expansion, and are used in evaluation of the cost.
-A new set of experimental parameters X∗ is calculated
-based on the cost Y0 , to be used in the next sequence.
-Optimisation is terminated when there is no further improvement to the cost. Together, the experiment and
-learner form a closed loop. A diagram of this feedback
-loop can be found in Fig. 1 of [21] or [20].
-While other optimisation techniques exist, these are
-often sub-optimal as most require accurate charactersation of the cloud (e.g. trap geometry, loss mechanisms)
-and/or apply over-simplifying assumptions (e.g. a highly
-truncated distribution6 , adiabaticity) [23] which may not
-necessarily hold for all instances. These procedures are
-often inflexible for special cases, such as dynamical traps
-[9] or the presence of dipolar interactions [24, 25]. Thus,
-most groups adopt a stepwise optimisation procedure, introducing incremental adjustments to parameters at each
-time step.
-The following sections discuss various optimisation
-schemes, as examples of online optimisation (OO) in the
-context of BEC formation in cold-atom experiments. In
-order of appearance, the main papers referenced are: [21],
-[20], and [19].
-A.
+## Machine-learning Online Optimisation (MLOO)
 
-lutions based on their fitness. If M -dimensional vectors
-Xi (individuals) represent n sets of experimental settings
-− in the randomised set comprising the initial population, {X1 , . . . , XN } − the fitness of each settings vector is the experimentally-determined associated cost, Yi .
-Random variations are introduced by mutation, and new
-vector candidates are generated by crossover (mixing)
-features of pre-existing individuals [21, 26].
-In [21], a new, mutated vector appears as V = Xk +
-(Xi − Xj ), where vectors Xi , Xj , and Xk are randomly
-chosen. A new candidate vector X∗ is produced by
-randomly picking elements from either Xi or V. This
-crossover moves Xi to a new position in the search space,
-described by {X∗ , Y∗ }. If Xi is an improved solution (i.e.
-Y∗ < Yi ) then X∗ replaces Xi ; else, it is discarded. The
-process repeats until a global minimum is found.
-B.
+Let the parameter space be one that is spanned by M experimental settings (e.g. voltage, laser parameters, timing, field strength [22]). A point in this space is represented by a vector X ∈ RM . Each point has an associated cost Y = f (X) ∈ R, where minimising the cost function f(X) guides optimisation toward the global optimum [21]. However, f(X) is taken to be non-convex, thus it is possible that optimisation may converge to a local optimum. This can be rectified in part by increasing the number of optimisation cycles with varying initial conditions [21]. The experimental apparatus and optimisation loop begin with the trapped atomic cloud. The machine learner is given an initial vector X0 of experimental settings. The gas is transported into an ultra-high vacuum environment, where it is evaporatively cooled. Properties of the cloud (e.g. atom number [19] or width of cloud edges<sup>5</sup>[20]) are extracted from absorption images taken after TOF expansion, and are used in evaluation of the cost. A new set of experimental parameters X∗ is calculated based on the cost Y0 , to be used in the next sequence. Optimisation is terminated when there is no further improvement to the cost. Together, the experiment and learner form a closed loop. A diagram of this feedback loop can be found in Fig. 1 of [21] or [20]. While other optimisation techniques exist, these are often sub-optimal as most require accurate charactersation of the cloud (e.g. trap geometry, loss mechanisms) and/or apply over-simplifying assumptions (e.g. a highly truncated distribution6 , adiabaticity) [23] which may not necessarily hold for all instances. These procedures are often inflexible for special cases, such as dynamical traps [9] or the presence of dipolar interactions [24, 25]. Thus, most groups adopt a stepwise optimisation procedure, introducing incremental adjustments to parameters at each time step. The following sections discuss various optimisation schemes, as examples of online optimisation (OO) in the context of BEC formation in cold-atom experiments. In order of appearance, the main papers referenced are: [21], [20], and [19].
 
-Bayesian optimisation uses statistical models to
-predict optimal parameters, where decisions are made
-with all previous evaluations of f (X) taken into account.
-The approach is to build an internal surrogate model
-for f (X) at each instance, which informs the learner’s
-decision on the next point in X to evaluate f (X). This is
-especially pertinent when f (X) is expensive to evaluate,
-as every experimental observation is used to improve
-the model and is not solely dependent on derivative
-information (e.g. local gradient (first-order) and Hessian
-approximations (second-order)) [27]. This method is
-used by both [20] and [21], the results of which are both
-discussed in § IV D.
-The most common and well-studied7 class of surrogate
-models are Gaussian Process (GP) models. These models
-are favoured for their strong generalisability, tractability, and flexible non-parametric inference [32], making
-them suitable for treating complex regression problems
-such as small samples and non-linearities [33]. A GP infers a probability distribution in function space, rather
-than over individual (function) parameters. Based on
-new data, GP regression uses Bayes’ rule to update the
-hypothesised prior distribution. To choose the next point
-of interest (POI), a predictive posterior distribution can
-be computed from both the prior and dataset.
 
-Differential Evolution
-1.
+### Differential Evolution
+Inspired by biological evolution, differential evolutionary (DE) algorithms assess a population of candidate solutions based on their fitness. If M -dimensional vectors
+Xi (individuals) represent n sets of experimental settings − in the randomised set comprising the initial population, {X1 , . . . , XN } − the fitness of each settings vector is the experimentally-determined associated cost, Yi. Random variations are introduced by mutation, and new vector candidates are generated by crossover (mixing) features of pre-existing individuals [21, 26]. In [21], a new, mutated vector appears as V = Xk + (Xi − Xj ), where vectors Xi , Xj , and Xk are randomly chosen. A new candidate vector X∗ is produced by randomly picking elements from either Xi or V. This crossover moves Xi to a new position in the search space, described by {X∗ , Y∗ }. If Xi is an improved solution (i.e. Y∗ < Yi ) then X∗ replaces Xi ; else, it is discarded. The process repeats until a global minimum is found.
 
-Inspired by biological evolution, differential evolutionary (DE) algorithms assess a population of candidate so-
 
-5
+### Gaussian Process Regression
 
-6
+Bayesian optimisation uses statistical models to predict optimal parameters, where decisions are made with all previous evaluations of f (X) taken into account. The approach is to build an internal surrogate model for f (X) at each instance, which informs the learner’s decision on the next point in X to evaluate f (X). This is especially pertinent when f (X) is expensive to evaluate, as every experimental observation is used to improve the model and is not solely dependent on derivative information (e.g. local gradient (first-order) and Hessian approximations (second-order)) [27]. This method is used by both [20] and [21], the results of which are both discussed in § IV D. The most common and well-studied<sup>7</sup> class of surrogate models are Gaussian Process (GP) models. These models are favoured for their strong generalisability, tractability, and flexible non-parametric inference [32], making them suitable for treating complex regression problems such as small samples and non-linearities [33]. A GP infers a probability distribution in function space, rather than over individual (function) parameters. Based on new data, GP regression uses Bayes’ rule to update the hypothesised prior distribution. To choose the next point of interest (POI), a predictive posterior distribution can be computed from both the prior and dataset.
 
-Gaussian Process Regression
+<sup>5</sup>[20] argues that atom number and temperature are inadequate measures, as accurately determining these quantities near condensation becomes challenging with very few runs per parameter set. Instead, the width and sharpness of the edges of the cloud are measured from the optical depth as a function of space. 
 
-[20] argues that atom number and temperature are inadequate
-measures, as accurately determining these quantities near condensation becomes challenging with very few runs per parameter
-set. Instead, the width and sharpness of the edges of the cloud
-are measured from the optical depth as a function of space.
-The truncation parameter, η, assumes atoms with E > ηkB T
-evaporate instantly.
+<sup>6</sup>The truncation parameter, η, assumes atoms with E > ηkB T evaporate instantly.
 
-Covariance Function
+### Covariance Function
 
-A stochastic process with the property that any finite
-collection of variables (or equivalently, any linear combination) [f (X1 ), . . . , f (XN )], is normally distributed is
-
-7
-
-The use of GP priors is well-established, dating back to the 6070’s [28–30]. As such, only a brief review is provided here. For
-a more thorough introduction, the reader is directed to [31].
+A stochastic process with the property that any finite collection of variables (or equivalently, any linear combination) [f (X1 ), . . . , f (XN )], is normally distributed is referred to as a Gaussian Process [34]. Properties of a GP f : X → R, where X = (X1 , . . . , XN ) and is a subset of RN , are determined by a mean function M : X → R and a positive definite kernel function K : X × X → R that defines the covariance [27, 34]. The default for K is often the Gaussian (squared exponential) kernel
 
 4
-referred to as a Gaussian Process [34]. Properties of a
-GP f : X → R, where X = (X1 , . . . , XN ) and is a subset
-of RN , are determined by a mean function M : X → R
-and a positive definite kernel function K : X × X → R
-that defines the covariance [27, 34].
-The default for K is often the Gaussian (squared exponential) kernel
+
 (
 )
 M
@@ -288,12 +166,23 @@ K(Xi , Xj ) = exp −
 (4)
 2
 
+where Xi [k] is the k element in the vector Xi and hk belongs to a set H = (h1 , . . . , hM ) of correlation lengths, the hyperparameters to be fitted online (see § IV D 1 for experimental results). In optimising experimental settings, GP regression is used to fit the function that maps these settings to the empirical cost. For [21], the system is initialized with a training set (generated by DE) of 2M settings, in the form of cost pairs {Xi , Yi }. By mapping, the estimated cost (and uncertainty) of any X∗ can be found from the GP fit; exploration into new settings is steered by the lowest predicted cost. A comparison of hk values across all settings can be made by normalising each X[k] with respect to the extremal (min/max) values of the k th setting [21].
+
+7
+
+The use of GP priors is well-established, dating back to the 6070’s [28–30]. As such, only a brief review is provided here. For
+a more thorough introduction, the reader is directed to [31].
+
+
 highest reward. To optimise the evaporative cooling of thulium atoms, [23] employed this method to
 achieve BEC efficiently.
 Other choices of acquisition functions exist, such as the
 instantaneous regret function [36], knowledge-gradient
 [37, 38], or (predictive [39]) entropy search [40], etc., but
 are not mentioned here.
+
+
+
 
 k=1
 
@@ -303,20 +192,7 @@ Artificial Neural Network
 
 th
 
-where Xi [k] is the k element in the vector Xi and hk
-belongs to a set H = (h1 , . . . , hM ) of correlation lengths,
-the hyperparameters to be fitted online (see § IV D 1 for
-experimental results).
-In optimising experimental settings, GP regression is
-used to fit the function that maps these settings to the
-empirical cost. For [21], the system is initialized with
-a training set (generated by DE) of 2M settings, in the
-form of cost pairs {Xi , Yi }. By mapping, the estimated
-cost (and uncertainty) of any X∗ can be found from the
-GP fit; exploration into new settings is steered by the
-lowest predicted cost. A comparison of hk values across
-all settings can be made by normalising each X[k] with
-respect to the extremal (min/max) values of the k th setting [21].
+
 
 2.
 
