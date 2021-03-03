@@ -1,7 +1,7 @@
 ---
-title: Summary of an ML topic
-description: ML topic has undergone a transformation lately. 
-author: Alan Turing
+title: Machine-learning Online Optimisation for Evaporative Cooling in Cold-atom Experiments
+description: As quantum systems become increasingly complex, optimisation algorithms are becoming a requirement for high-precision experiments. Machine-learning online optimisation offers an alternative to theoretical models, relying instead on experimental observations to continuously update an internal surrogate model. Two online optimisation techniques are reviewed in this paper in the context of evaporative cooling for the efficient and high-quality production of Bose-Einstein condensates (BEC). These two methods prioritise different stages of cooling with one focused on optimising experimental settings and the other on improving image acquisition. 
+author: Rachel Wang
 ---
 
 # Summary
@@ -11,43 +11,11 @@ Content goes here.
 Equations can be included via \( ... \) or \[ ... \].  
 
 
-Machine-learning Online Optimisation for Evaporative Cooling in Cold-atom
-Experiments
-R. Wang
-(Dated: March 3, 2021)
-As quantum systems become increasingly complex, optimisation algorithms are becoming a requirement for high-precision experiments. Machine-learning online optimisation offers an alternative
-to theoretical models, relying instead on experimental observations to continuously update an internal surrogate model. Two online optimisation techniques are reviewed in this paper in the context
-of evaporative cooling for the efficient and high-quality production of Bose-Einstein condensates
-(BEC). These two methods prioritise different stages of cooling with one focused on optimising
-experimental settings and the other on improving image acquisition.
 
-I.
 
-INTRODUCTION
+Introduction
 
-In 1925, Einstein predicted that a new quantum state
-of matter could condense out of a gas of integer spin
-particles (bosons) when cooled to temperatures close to
-absolute zero (nanokelvins) [1, 2]. Experimental observation of this process, called Bose-Einstein condensation,
-came 70 years later using an ultracold gas of rubidium
-atoms [3].
-Despite being composed of atomic constituents, the
-quantum state of a Bose-Einstein condensate (BEC) can
-be collectively characterized by a single macroscopic wave
-function. Below a critical temperature, a large fraction
-of bosons occupy the lowest-energy state (ground state)
-and assume identical wave identities, acting like a ‘super atom’ that exhibits quantum behaviour at a macroscopic level. For this reason, degenerate gases are routinely used as quantum simulators to investigate a variety
-of quantum phenomena, such as many-body physics [4],
-non-equilibrium dynamics [5], phase transitions [6], superfluidity and superconductivity [7], and measurement
-sensitivity [8].
-While methodologies for quantum gas experiments are
-well-established, the measurement rate is limited by long
-production times, typically lasting tens of seconds; the
-sampling process itself lasts for about a second before a
-destructive measurement is made [9]. Thus, producing
-BECs with short duty cycles is of particular interest and
-is essential for precise quantum sensors, such as atomic
-clocks and interferometers [10], pressure and inertial sensors [11, 12], and gravimeters [13].
+In 1925, Einstein predicted that a new quantum state of matter could condense out of a gas of integer spin particles (bosons) when cooled to temperatures close to absolute zero (nanokelvins) [1, 2]. Experimental observation of this process, called Bose-Einstein condensation, came 70 years later using an ultracold gas of rubidium atoms [3]. Despite being composed of atomic constituents, the quantum state of a Bose-Einstein condensate (BEC) can be collectively characterized by a single macroscopic wave function. Below a critical temperature, a large fraction of bosons occupy the lowest-energy state (ground state) and assume identical wave identities, acting like a ‘super atom’ that exhibits quantum behaviour at a macroscopic level. For this reason, degenerate gases are routinely used as quantum simulators to investigate a variety of quantum phenomena, such as many-body physics [4], non-equilibrium dynamics [5], phase transitions [6], superfluidity and superconductivity [7], and measurement sensitivity [8]. While methodologies for quantum gas experiments are well-established, the measurement rate is limited by long production times, typically lasting tens of seconds; the sampling process itself lasts for about a second before a destructive measurement is made [9]. Thus, producing BECs with short duty cycles is of particular interest and is essential for precise quantum sensors, such as atomic clocks and interferometers [10], pressure and inertial sensors [11, 12], and gravimeters [13].
 
 II.
 
