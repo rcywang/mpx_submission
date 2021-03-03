@@ -11,7 +11,7 @@ In 1925, Einstein predicted that a new quantum state of matter could condense ou
 
 # II. Motivation
 
-The standard method to reach ultracold temperaturesis by collisional evaporative cooling<sup>1</sup>, which governs theduty cycle length.  Evaporation requires the precise se-quencing of time-varying magnetic and optical fields, parameterised by a time-specific value set for a given sequence. Although microscopic models exist to describe this process [14], such semi-classical theories can oversimplify dynamics, or miss non-intuitive yet more effective solutions [15] only discoverable through experimentation. For most applications, data acquisition for high-precision experiments require achieving the optimal measurement in a limited number of iterations. Given the large parameter space of a typical sequence, optimising experimental settings through exhaustive search is highly impractical. Instead, this discovery process is automated with machine-learning online<sup>2</sup> optimisation (MLOO). Isolating the atomic absorption signal from the noisy background is another prohibitive factor, which also benefits from the implementation of MLOO. In this review, two approaches to optimising cold-atom experiments are discussed: the first focusing on finding the optimal experimental settings, and the second on improving current absorption imaging techniques.
+The standard method to reach ultracold temperatures is by collisional evaporative cooling<sup>1</sup>, which governs theduty cycle length. Evaporation requires the precise sequencing of time-varying magnetic and optical fields, parameterised by a time-specific value set for a given sequence. Although microscopic models exist to describe this process [14], such semi-classical theories can oversimplify dynamics, or miss non-intuitive yet more effective solutions [15] only discoverable through experimentation. For most applications, data acquisition for high-precision experiments require achieving the optimal measurement in a limited number of iterations. Given the large parameter space of a typical sequence, optimising experimental settings through exhaustive search is highly impractical. Instead, this discovery process is automated with machine-learning online<sup>2</sup> optimisation (MLOO). Isolating the atomic absorption signal from the noisy background is another prohibitive factor, which also benefits from the implementation of MLOO. In this review, two approaches to optimising cold-atom experiments are discussed: the first focusing on finding the optimal experimental settings, and the second on improving current absorption imaging techniques.
 
 <sup>1</sup> Ultracold temperatures are usually achieved through a combination of laser/optical and forced evaporative cooling.
 
@@ -20,23 +20,23 @@ The standard method to reach ultracold temperaturesis by collisional evaporative
 
 # III. Evaporation Model
 
-Evaporative cooling can be understood by analogy to cooling a cup of hot coffee by blowing on it. The speed of atoms in an atomic gas can be described by the Maxwell-Boltzmann distribution [16]. By removing the high-energy atoms<sup>3</sup> , the remaining atoms re-equilibrate through elastic collisions, lowering the temperature of the sample. In hot coffee, the most energetic particles escape as vapour, taking with them their share of energy and thus temperature.
+Evaporative cooling can be understood by analogy to cooling a cup of hot coffee by blowing on it. The speed of atoms in an atomic gas can be described by the Maxwell-Boltzmann distribution [16]. By removing the high-energy atoms<sup>3</sup>, the remaining atoms re-equilibrate through elastic collisions, lowering the temperature of the sample. In hot coffee, the most energetic particles escape as vapour, taking with them their share of energy and thus temperature.
 
 <sup>3</sup> Atoms occupying the highest energy tail of the distribution.
 
 ## A. Runaway Evaporation
 
-Efficient or runaway evaporative cooling requires the elastic collision rate γ_el, to be much larger than the loss rate
+Efficient or runaway evaporative cooling requires the elastic collision rate γ<sub>el</sub>, to be much larger than the loss rate
 
-<img src="/figures/eqn1.png" width="400"/>
+<img src="/figures/eqn1.png" width="300"/>
 
-where σ is the elastic scattering cross-section and \<n> and \<v> are the expectation values of the particle number density and velocity, respectively. As \<n> ∝ NT<sup>-1.5</sup> and \<v> ∝ T<sup>0.5</sup> [17], the elastic collision rate thus varies as γ_el ∝ NT<sup>-1</sup> and is directly proportional to optical depth,
+where σ is the elastic scattering cross-section and \<n> and \<v> are the expectation values of the particle number density and velocity, respectively. As \<n> ∝ NT<sup>-1.5</sup> and \<v> ∝ T<sup>0.5</sup> [17], the elastic collision rate thus varies as γ<sub>el</sub> ∝ NT<sup>-1</sup> and is directly proportional to optical depth,
 
-<img src="/figures/eqn2.png" width="400"/>
+<img src="/figures/eqn2.png" width="300"/>
 
-by Beer’s law<sup>4</sup> . The peak optical depth, τpk , for a cloud released and allowed to expand ballistically for a time t is described by
+by Beer’s law<sup>4</sup> . The peak optical depth, τ<sub>pk</sub>, for a cloud released and allowed to expand ballistically for a time t is described by
 
-<img src="/figures/eqn3.png" width="400"/>
+<img src="/figures/eqn3.png" width="300"/>
 
 <sup>4</sup> I<sub>0</sub> is the incident tensity, and I<sub>t</sub> is the transmitted intensity after time t.
 
@@ -82,9 +82,9 @@ The following sections discuss various optimisation schemes, as examples of onli
 
 ### A. Differential Evolution
 Inspired by biological evolution, differential evolutionary (DE) algorithms assess a population of candidate solutions based on their fitness. If M-dimensional vectors
-X<sub>i</sub> (individuals) represent n sets of experimental settings − in the randomised set comprising the initial population, {X<sub>1</sub> , . . . , X<sub>N</sub> } − the fitness of each settings vector is the experimentally-determined associated cost, Y<sub>i</sub>. Random variations are introduced by mutation, and new vector candidates are generated by crossover (mixing) features of pre-existing individuals [21, 26]. 
+X<sub>i</sub> (individuals) represent n sets of experimental settings − in the randomised set comprising the initial population, {X<sub>1</sub> , . . . , X<sub>N</sub>} − the fitness of each settings vector is the experimentally-determined associated cost, Y<sub>i</sub>. Random variations are introduced by mutation, and new vector candidates are generated by crossover (mixing) features of pre-existing individuals [21, 26]. 
 
-In [21], a new, mutated vector appears as V = X<sub>k</sub> + (X<sub>i</sub> − X<sub>j</sub> ), where vectors X<sub>i</sub> , X<sub>j</sub> , and X<sub>k</sub> are randomly chosen. A new candidate vector X<sub>∗</sub> is produced by randomly picking elements from either X<sub>i</sub> or V. This crossover moves X<sub>i</sub> to a new position in the search space, described by {X<sub>∗</sub>, Y<sub>∗</sub>}. If X<sub>i</sub> is an improved solution (i.e. Y<sub>∗</sub><Y<sub>i</sub>) then X<sub>∗</sub> replaces X<sub>i</sub>; else, it is discarded. The process repeats until a global minimum is found.
+In [21], a new, mutated vector appears as V = X<sub>k</sub> + (X<sub>i</sub> − X<sub>j</sub>), where vectors X<sub>i</sub> , X<sub>j</sub> , and X<sub>k</sub> are randomly chosen. A new candidate vector X<sub>∗</sub> is produced by randomly picking elements from either X<sub>i</sub> or V. This crossover moves X<sub>i</sub> to a new position in the search space, described by {X<sub>∗</sub>, Y<sub>∗</sub>}. If X<sub>i</sub> is an improved solution (i.e. Y<sub>∗</sub><Y<sub>i</sub>) then X<sub>∗</sub> replaces X<sub>i</sub>; else, it is discarded. The process repeats until a global minimum is found.
 
 
 ### B. Gaussian Process Regression
@@ -102,7 +102,7 @@ A stochastic process with the property that any finite collection of variables (
 
 <img src="/figures/eqn4.png" width="400"/>
 
-where X<sub>i</sub> [k] is the k element in the vector X<sub>i</sub> and h<sub>k</sub> belongs to a set H = (h<sub>1</sub> , . . . , h<sub>M</sub> ) of correlation lengths, the hyperparameters to be fitted online (see § IV D 1 for experimental results). In optimising experimental settings, GP regression is used to fit the function that maps these settings to the empirical cost. For [21], the system is initialized with a training set (generated by DE) of 2M settings, in the form of cost pairs {X<sub>i</sub>, Y<sub>i</sub>}. By mapping, the estimated cost (and uncertainty) of any X<sub>*</sub> can be found from the GP fit; exploration into new settings is steered by the lowest predicted cost. A comparison of h<sub>k</sub> values across all settings can be made by normalising each X[k] with respect to the extremal (min/max) values of the k<sup>th</sup> setting [21].
+where X<sub>i</sub> [k] is the k element in the vector X<sub>i</sub> and h<sub>k</sub> belongs to a set H = (h<sub>1</sub> , . . . , h<sub>M</sub>) of correlation lengths, the hyperparameters to be fitted online (see § IV D 1 for experimental results). In optimising experimental settings, GP regression is used to fit the function that maps these settings to the empirical cost. For [21], the system is initialized with a training set (generated by DE) of 2M settings, in the form of cost pairs {X<sub>i</sub>, Y<sub>i</sub>}. By mapping, the estimated cost (and uncertainty) of any X<sub>*</sub> can be found from the GP fit; exploration into new settings is steered by the lowest predicted cost. A comparison of h<sub>k</sub> values across all settings can be made by normalising each X[k] with respect to the extremal (min/max) values of the k<sup>th</sup> setting [21].
 
 
 
@@ -116,7 +116,7 @@ In general, Bayesian acquisition functions depend on all previous observations a
 
 Points may be selected on the basis of maximising the UCB [31]:
 
-<img src="/figures/eqn5.png" width="400"/>
+<img src="/figures/eqn5.png" width="300"/>
 
 where κ may be tuned to balance exploration versus exploitation. The learner explores actions with high uncertainty, and exploits actions with the highest reward. To optimise the evaporative cooling of thulium atoms, [23] employed this method to achieve BEC efficiently. 
 
@@ -188,7 +188,7 @@ The learner has two choices:
 
 or alternatively, a blended choice
 
-3. Minimise <img src="/figures/choice3.png" width="400"/>
+3. Minimise <img src="/figures/choice3.png" width="200"/>
 
 where b steps linearly from b=0 and b=1, the ‘optimiser’ and ‘scientist’ strategies, over one sequence. If the change between the previous and updated sets of experimental settings is too drastic, no atoms are produced in virtually all experiments thereafter. Thus, the learning rate is restricted but the exploration space remains unbounded [20]. Two parameterisations of the evaporation ramp are used by [20]:
 
@@ -205,7 +205,7 @@ where A<sub>2</sub>, A<sub>3</sub>, A<sub>4</sub> are relabelled by [20] to matc
 
 For all three ramps, [20] used complex parameterisation (Eqn. 13), and also included an additional parameter t<sub>f</sub> which marks the final time of the cooling ramp. While the parameters y<sub>i</sub>, y<sub>f</sub>, A<sub>1</sub>, A<sub>2</sub>, A<sub>3</sub> of each are independent, t<sub>f</sub> is common between all ramps. This gives a total of 16 parameters, the optimum values of which may be found in Table 1 of [Supplementary Information](https://static-content.springer.com/esm/art%3A10.1038%2Fsrep25890/MediaObjects/41598_2016_BFsrep25890_MOESM1_ESM.pdf). A comparison between the brute force, Nelder-Mead, and MLOO methods for a set of 16 parameters is given in Table I.
 
-<img src="/figures/table1.png" width="500"/>
+<img src="/figures/table1.png" width="400"/>
 
 TABLE I. Experimental results from the first implementation of MLOO by creators [20] in ultra-cold atom experiments. Both the NM and MLOO optimisers were trained for 20 runs using a common set of parameters.
 
@@ -215,7 +215,7 @@ Compared to the NM solver (Table I), the learner discovered BEC ramps in only a 
 Another trade-off is to improve estimations of correlation lengths by increasing the particle number (to P = 16) [54], but also seeing an increase run time. This can be compensated for by using the simple parameterisation of ramps and about half as many parameters (a total of 7). In obtaining a more reliable estimate, the convergence rate is slowed. However, it is still faster than the NM optimiser (see Figure 2 of [20]). The least sensitive of the 7 parameters has no influence on BEC production; it was identified by the learner and removed from the experimental design. With 6 parameters, the learner performs better than the 7 parameter case, converging faster and producing a higher quality BEC [20]. From the results of [20], lower parameter searches converged to similar solutions, while higher dimensional searches led to noticeably different optima. A simple summary of the three optimisation runs (out of a total of 5) can be found in Table II.
 
 
-<img src="/figures/table2.png" width="500"/>
+<img src="/figures/table2.png" width="300"/>
 
 TABLE II. A summary of values for each of the three optimisation runs, used by [20] and discussed in §IV D 1.
 
@@ -228,12 +228,12 @@ While [20] prioritised maximising BEC production and quality, [21] favours a fas
 <img src="/figures/eqn14.png" width="400"/>
 
 
-where Ñ<sub>0</sub> is the threshold atom number, chosen to be a BEC of size 1 × 10<sup>5</sup> (comparable to a BEC achieved by manual tuning; see Table I), and t̃ is the sequence duration [21]. This cost function is tailored for optimising convergence rates: it rewards short sequence times t̃, gives little reward to a BEC with an atom number > Ñ<sub>0</sub>, and penalises a BEC that does not reach Ñ_0 . With OO, [21] found that optimal settings based on Eqn. 14 produced a BEC of 9.6 × 10<sup>4</sup> atoms and reduced sequence time by 20% (from 58s to 46s). 
+where Ñ<sub>0</sub> is the threshold atom number, chosen to be a BEC of size 1 × 10<sup>5</sup> (comparable to a BEC achieved by manual tuning; see Table I), and t̃ is the sequence duration [21]. This cost function is tailored for optimising convergence rates: it rewards short sequence times t̃, gives little reward to a BEC with an atom number > Ñ<sub>0</sub>, and penalises a BEC that does not reach Ñ<sub>0</sub> . With OO, [21] found that optimal settings based on Eqn. 14 produced a BEC of 9.6 × 10<sup>4</sup> atoms and reduced sequence time by 20% (from 58s to 46s). 
 
 Instead of NM, a baseline for comparison is established by choosing randomised initial settings (and thus does not produce an atomic cloud) for each learner. For each method, one optimisation routine is performed until no further improvement is found within 35 cycles or a time limit of 3 hours. Experimental results from [21] are presented in Table III.
 
 
-<img src="/figures/table3.png" width="500"/>
+<img src="/figures/table3.png" width="300"/>
 
 TABLE III. Comparison of convergence rates between methods. DE did not converge (DNC) within the time limit of roughly 3 hours (or a maximum of 180 sequences). The convergence rate of ANN is between those of GP and DE. For both GP and DE, the quoted number omits the DE-generated training set of 2M = 70 sequences.
 
@@ -245,7 +245,7 @@ When the cost function drops below roughly 9.2, a bimodal density distribution i
 * DE (slowest): the simplest method that incorporates an element of randomness when choosing the next POI. Thus, the chance that the optimiser begins with good settings early on should be taken into account (and is, by adjusting the minimum BEC costs. See Table IV).
 
 
-<img src="/figures/table4.png" width="500"/>
+<img src="/figures/table4.png" width="300"/>
 
 TABLE IV. A comparison of the number of sequences needed to achieve the BEC cost threshold of approximately 9.2 (though varies slightly for the GP and ANN methods).
 
@@ -265,7 +265,7 @@ The experimental procedure for cooling in [19] is the same as those used by [55]
 
 
 
-<img src="/figures/table5.png" width="500"/>
+<img src="/figures/table5.png" width="400"/>
 
 TABLE V. List of acquired images and the associated applied imaging technique. In [19], the first image was illuminated by a 80 µs pulse. The second (reference) exposure was taken 50 ms later, after the atoms have moved out of the CCD field of view. Note that the 2nd exposure is only needed for comparison to the conventional method and is in no way used in the DNN technique. Images were recorded with a 14-bit CCD camera.
 
@@ -288,9 +288,9 @@ A summary of the image transformation process and DNN pipeline is provided in Fi
 
 FIG. 4. Architecture of image transformation and the DNN pipeline (a summary of the experimental procedure performed by [19]).
 
-Predictions on images with atoms can be inferred by the optimised model, even on few data sets and effectively no prior knowledge of the system (except for knowledge of the absence of atoms in the periphery). In training, the network has additional knowledge on the atoms in the masked region from the ground truth values. The masked region is 190 pixels in diameter, and a factor of 2 larger than that of a typical cloud; this is to ensure that the peripheral area used in DNN background prediction is completely devoid of any absorption signal [19]. ADAM [44] and Glorot [59] were used for parameter optimisation. Values used in the network are provided in Table VI.
+Predictions on images with atoms can be inferred by the optimised model, even on few data sets and effectively no prior knowledge of the system (except for knowledge of the absence of atoms in the periphery). In training, the network has additional knowledge on the atoms in the masked region from the ground truth values. The masked region is 190 pixels in diameter, and a factor of 2 larger than that of a typical cloud; this is to ensure that the peripheral area used in DNN background prediction is completely devoid of any absorption signal [19]. Adam [44] and Glorot [59] were used for parameter optimisation. Values used in the network are provided in Table VI.
 
-<img src="/figures/table6.png" width="500"/>
+<img src="/figures/table6.png" width="400"/>
 
 TABLE VI. A description of the experimental framework of [19].
 
