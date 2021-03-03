@@ -1,3 +1,16 @@
+---
+title: Summary of an ML topic
+description: ML topic has undergone a transformation lately. 
+author: Alan Turing
+---
+
+# Summary
+
+Content goes here.
+
+Equations can be included via \( ... \) or \[ ... \].  
+
+
 Machine-learning Online Optimisation for Evaporative Cooling in Cold-atom
 Experiments
 R. Wang
