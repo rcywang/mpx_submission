@@ -33,28 +33,17 @@ Evaporative cooling can be understood by analogy to cooling a cup of hot coffee 
 Efficient or runaway evaporative cooling requires the elastic collision rate \[ \gamma_{\mathrm{el}} \], to be much larger than the loss rate
 γel = σhnvi  Γloss
 
-\[\gamma \]
+
+\( \gamma\)
 
 <sup>2</sup> Online, meaning optimisation that occurs in real time.
 <sup>3</sup> Atoms occupying the highest energy tail of the distribution.
 
 
 
+FIG. 1. The BEC evaporative cooling process of trapped atoms. In (a), high-energy atoms can move higher up the walls; (b) the walls are lowered and the most energetic atoms can spill over the walls and escape; (c) the remaining atoms rethermalize (collisionally). Steps (b) and (c) are repeated until the sample is sufficiently cold (determined by the critial temperature of a BEC). This diagram is based off of: https://coldatoms.physics.lsa.umich.edu/projects/bec/evaporation.html.
 
-(1)
-
-2
-
-FIG. 1. The BEC evaporative cooling process of trapped
-atoms. In (a), high-energy atoms can move higher up
-the walls; (b) the walls are lowered and the most energetic atoms can spill over the walls and escape; (c)
-the remaining atoms rethermalize (collisionally).
-Steps
-(b) and (c) are repeated until the sample is sufficiently cold (determined by the critial temperature of
-a BEC). This diagram is based off of: https://coldatoms.physics.lsa.umich.edu/projects/bec/evaporation.html.
-
-where σ is the elastic scattering cross-section and hni
-and hvi are the expectation values of the particle number
+where σ is the elastic scattering cross-section and hni and hvi are the expectation values of the particle number
 3
 density√and velocity, respectively. As hni ∝ N T − 2 and
 hvi ∝ T [17], the elastic collision rate thus varies as
@@ -64,9 +53,7 @@ I0
 τ = ln
 (2)
 It
-by Beer’s law4 . The peak optical depth, τpk , for a cloud
-released and allowed to expand ballistically for a time t
-is described by
+by Beer’s law4 . The peak optical depth, τpk , for a cloud released and allowed to expand ballistically for a time t is described by
 τpk =
 
 λ2 m N
