@@ -68,23 +68,23 @@ condense from less dense red/yellow/green areas to significantly denser blue/whi
 
 ## IV. Machine-learning Online Optimisation (MLOO)
 
-Let the parameter space be one that is spanned by M experimental settings (e.g. voltage, laser parameters, timing, field strength [22]). A point in this space is represented by a vector X∈R<sup>M</sup> . Each point has an associated cost Y=f(X)∈R, where minimising the cost function f(X) guides optimisation toward the global optimum [21]. However, f(X) is taken to be non-convex, thus it is possible that optimisation may converge to a local optimum. This can be rectified in part by increasing the number of optimisation cycles with varying initial conditions [21]. 
+Let the parameter space be one that is spanned by M experimental settings (e.g. voltage, laser parameters, timing, field strength [22]). A point in this space is represented by a vector X ∈ R<sup>M</sup> . Each point has an associated cost Y = f(X) ∈ R, where minimising the cost function f(X) guides optimisation toward the global optimum [21]. However, f(X) is taken to be non-convex, thus it is possible that optimisation may converge to a local optimum. This can be rectified in part by increasing the number of optimisation cycles with varying initial conditions [21]. 
 
-The experimental apparatus and optimisation loop begin with the trapped atomic cloud. The machine learner is given an initial vector X<sub>0</sub> of experimental settings. The gas is transported into an ultra-high vacuum environment, where it is evaporatively cooled. Properties of the cloud (e.g. atom number [19] or width of cloud edges<sup>5</sup>[20]) are extracted from absorption images taken after TOF expansion, and are used in evaluation of the cost. A new set of experimental parameters X<sub>∗</sub> is calculated based on the cost Y0 , to be used in the next sequence. Optimisation is terminated when there is no further improvement to the cost. Together, the experiment and learner form a closed loop. A diagram of this feedback loop can be found in Fig. 1 of [21] or [20]. 
+The experimental apparatus and optimisation loop begin with the trapped atomic cloud. The machine learner is given an initial vector X<sub>0</sub> of experimental settings. The gas is transported into an ultra-high vacuum environment, where it is evaporatively cooled. Properties of the cloud (e.g. atom number [19] or width of cloud edges<sup>5</sup>[20]) are extracted from absorption images taken after TOF expansion, and are used in evaluation of the cost. A new set of experimental parameters X<sub>∗</sub> is calculated based on the cost Y<sub>0</sub>, to be used in the next sequence. Optimisation is terminated when there is no further improvement to the cost. Together, the experiment and learner form a closed loop. A diagram of this feedback loop can be found in Fig. 1 of [21] or [20]. 
 
-While other optimisation techniques exist, these are often sub-optimal as most require accurate charactersation of the cloud (e.g. trap geometry, loss mechanisms) and/or apply over-simplifying assumptions (e.g. a highly truncated distribution6 , adiabaticity) [23] which may not necessarily hold for all instances. These procedures are often inflexible for special cases, such as dynamical traps [9] or the presence of dipolar interactions [24, 25]. Thus, most groups adopt a stepwise optimisation procedure, introducing incremental adjustments to parameters at each time step. 
+While other optimisation techniques exist, these are often sub-optimal as most require accurate charactersation of the cloud (e.g. trap geometry, loss mechanisms) and/or apply over-simplifying assumptions (e.g. a highly truncated distribution<sup>6</sup>, adiabaticity) [23] which may not necessarily hold for all instances. These procedures are often inflexible for special cases, such as dynamical traps [9] or the presence of dipolar interactions [24, 25]. Thus, most groups adopt a stepwise optimisation procedure, introducing incremental adjustments to parameters at each time step. 
 
 The following sections discuss various optimisation schemes, as examples of online optimisation (OO) in the context of BEC formation in cold-atom experiments. In order of appearance, the main papers referenced are: [21], [20], and [19].
 
 <sup>5</sup>[20] argues that atom number and temperature are inadequate measures, as accurately determining these quantities near condensation becomes challenging with very few runs per parameter set. Instead, the width and sharpness of the edges of the cloud are measured from the optical depth as a function of space. 
 
-<sup>6</sup>The truncation parameter, η, assumes atoms with E > ηk<sub>B</sub> T evaporate instantly.
+<sup>6</sup>The truncation parameter, η, assumes atoms with E > ηk<sub>B</sub>T evaporate instantly.
 
 ### A. Differential Evolution
 Inspired by biological evolution, differential evolutionary (DE) algorithms assess a population of candidate solutions based on their fitness. If M-dimensional vectors
 X<sub>i</sub> (individuals) represent n sets of experimental settings − in the randomised set comprising the initial population, {X<sub>1</sub> , . . . , X<sub>N</sub> } − the fitness of each settings vector is the experimentally-determined associated cost, Y<sub>i</sub>. Random variations are introduced by mutation, and new vector candidates are generated by crossover (mixing) features of pre-existing individuals [21, 26]. 
 
-In [21], a new, mutated vector appears as V = X<sub>k</sub> + (X<sub>i</sub> − X<sub>j</sub> ), where vectors X<sub>i</sub> , X<sub>j</sub> , and X<sub>k</sub> are randomly chosen. A new candidate vector X<sub>∗</sub> is produced by randomly picking elements from either Xi or V. This crossover moves Xi to a new position in the search space, described by {X<sub>∗</sub>, Y<sub>∗</sub>}. If X<sub>i</sub> is an improved solution (i.e. Y<sub>∗</sub><Y<sub>i</sub>) then X<sub>∗</sub> replaces X<sub>i</sub>; else, it is discarded. The process repeats until a global minimum is found.
+In [21], a new, mutated vector appears as V = X<sub>k</sub> + (X<sub>i</sub> − X<sub>j</sub> ), where vectors X<sub>i</sub> , X<sub>j</sub> , and X<sub>k</sub> are randomly chosen. A new candidate vector X<sub>∗</sub> is produced by randomly picking elements from either X<sub>i</sub> or V. This crossover moves X<sub>i</sub> to a new position in the search space, described by {X<sub>∗</sub>, Y<sub>∗</sub>}. If X<sub>i</sub> is an improved solution (i.e. Y<sub>∗</sub><Y<sub>i</sub>) then X<sub>∗</sub> replaces X<sub>i</sub>; else, it is discarded. The process repeats until a global minimum is found.
 
 
 ### B. Gaussian Process Regression
@@ -93,14 +93,14 @@ Bayesian optimisation uses statistical models to predict optimal parameters, whe
 
 The most common and well-studied<sup>7</sup> class of surrogate models are Gaussian Process (GP) models. These models are favoured for their strong generalisability, tractability, and flexible non-parametric inference [32], making them suitable for treating complex regression problems such as small samples and non-linearities [33]. A GP infers a probability distribution in function space, rather than over individual (function) parameters. Based on new data, GP regression uses Bayes’ rule to update the hypothesised prior distribution. To choose the next point of interest (POI), a predictive posterior distribution can be computed from both the prior and dataset.
 
-<sup>7</sup>The use of GP priors is well-established, dating back to the 6070’s [28–30]. As such, only a brief review is provided here. For a more thorough introduction, the reader is directed to [31].
+<sup>7</sup>The use of GP priors is well-established, dating back to the 60-70’s [28–30]. As such, only a brief review is provided here. For a more thorough introduction, the reader is directed to [31].
 
 
 ### 1. Covariance Function
 
 A stochastic process with the property that any finite collection of variables (or equivalently, any linear combination) [f(X<sub>1</sub>) , . . . , f(X<sub>N</sub>)], is normally distributed is referred to as a Gaussian Process [34]. Properties of a GP f : X → R, where X = (X<sub>1</sub>,...,X<sub>N</sub> ) and is a subset of R<sup>N</sup>, are determined by a mean function M : X → R and a positive definite kernel function K : X × X → R that defines the covariance [27, 34]. The default for K is often the Gaussian (squared exponential) kernel
 
-<img src="/figures/eqn4.png" width="200"/>
+<img src="/figures/eqn4.png" width="400"/>
 
 where X<sub>i</sub> [k] is the k element in the vector X<sub>i</sub> and h<sub>k</sub> belongs to a set H = (h<sub>1</sub> , . . . , h<sub>M</sub> ) of correlation lengths, the hyperparameters to be fitted online (see § IV D 1 for experimental results). In optimising experimental settings, GP regression is used to fit the function that maps these settings to the empirical cost. For [21], the system is initialized with a training set (generated by DE) of 2M settings, in the form of cost pairs {X<sub>i</sub>, Y<sub>i</sub>}. By mapping, the estimated cost (and uncertainty) of any X<sub>*</sub> can be found from the GP fit; exploration into new settings is steered by the lowest predicted cost. A comparison of h<sub>k</sub> values across all settings can be made by normalising each X[k] with respect to the extremal (min/max) values of the k<sup>th</sup> setting [21].
 
@@ -110,9 +110,9 @@ where X<sub>i</sub> [k] is the k element in the vector X<sub>i</sub> and h<sub>k
 
 In general, Bayesian acquisition functions depend on all previous observations and the GP hyperparameters to guide the search for the optimum [27, 31]. The only dependence on the model is through its predictive mean and variance functions. There are several optimisation strategies:
 
-1. Probability of improvement – An intuitive approach suggested by [35] is to maximise the probability of improvement over the current best value.
-2. Expected improvement (EI) – A similar strategy is to maximise the expected improvement over the current best [27].
-3. GP upper confidence bound (GP-UCB) – Alternatively, an acquisition function can be chosen such that it balances: (i) improving the model (exploration) and (ii) using the model to find the global optimum (exploitation).
+1. *Probability of improvement* – An intuitive approach suggested by [35] is to maximise the probability of improvement over the current best value.
+2. *Expected improvement (EI)* – A similar strategy is to maximise the expected improvement over the current best [27].
+3. *GP upper confidence bound (GP-UCB)* – Alternatively, an acquisition function can be chosen such that it balances: (i) improving the model (exploration) and (ii) using the model to find the global optimum (exploitation).
 
 Points may be selected on the basis of maximising the UCB [31]:
 
@@ -149,7 +149,7 @@ if speed is favoured over accuracy. Other CDFs may be used, for example: the sta
 
 The code repository is provided by D. Hendrycks (while at TTIC), and is available at https://github.com/hendrycks/GELUs.
 
-<img src="/figures/RELUandGELU.png" width="500"/>
+<img src="/figures/RELUandGELU.png" width="400"/>
 
 FIG. 3. Plot of ReLU and GELU near x=0. ([43], CC BY-SA 4.0)
 
@@ -183,8 +183,8 @@ with relative weights w<sub>i</sub>.
 
 The learner has two choices:
 
-1. Minimise M_Ĉ(X) and prioritise optimisation, but may not converge to the global optimum – an ‘optimiser’.
-2. Maximise Σ^2_Ĉ and investigate areas in which learner is most uncertain, formulating hypotheses and updating the model based on experimental data – a ‘scientist’.
+1. *Minimise* M<sub>Ĉ</sub>(X) and prioritise optimisation, but may not converge to the global optimum – an ‘optimiser’.
+2. *Maximise* Σ<sup>2</sup><sub>Ĉ</sub> and investigate areas in which learner is most uncertain, formulating hypotheses and updating the model based on experimental data – a ‘scientist’.
 
 or alternatively, a blended choice
 
